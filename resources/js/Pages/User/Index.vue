@@ -5,10 +5,10 @@ import { Head, Link } from '@inertiajs/vue3'
 </script>
 
 <template>
-  <Head title="People" />
+  <Head title="User" />
   <AuthenticatedLayout>
     <div class="mb-5">
-      <h5 class="text-h5 font-weight-bold">People</h5>
+      <h5 class="text-h5 font-weight-bold">User</h5>
       <Breadcrumbs :items="breadcrumbs" class="pa-0 mt-1" />
     </div>
     <v-card class="pa-4">
@@ -23,7 +23,7 @@ import { Head, Link } from '@inertiajs/vue3'
           single-line
         />
         <v-spacer />
-        <Link href="/people/create" as="div">
+        <Link href="/user/create" as="div">
           <v-btn color="primary">Create</v-btn>
         </Link>
       </div>
@@ -37,9 +37,8 @@ import { Head, Link } from '@inertiajs/vue3'
         :items-per-page-options="paginationOptions"
         @update:options="loadItems"
       >
-        <template #[`item.gender`]="{ item }">{{ item.gender == 'male' ? 'Male' : 'Female' }}</template>
         <template #[`item.action`]="{ item }">
-          <Link :href="`/people/${item.id}/edit`" as="button">
+          <Link :href="`/user/${item.id}/edit`" as="button">
             <v-icon color="warning" icon="mdi-pencil" size="small" />
           </Link>
           <v-icon class="ml-2" color="error" icon="mdi-delete" size="small" @click="deleteItem(item)" />
@@ -63,7 +62,7 @@ import { Head, Link } from '@inertiajs/vue3'
 
 <script>
 export default {
-  name: 'PeopleIndex',
+  name: 'UserIndex',
   props: {
     data: {
       type: Object,
@@ -76,10 +75,8 @@ export default {
     return {
       headers: [
         { title: 'Name', key: 'name' },
-        { title: 'Gender', key: 'gender' },
         { title: 'Email', key: 'email' },
-        { title: 'Phone Number', key: 'phone' },
-        { title: 'Created At', key: 'created_at' },
+        { title: 'Created At', key: 'createdAt' },
         { title: 'Action', key: 'action', sortable: false },
       ],
       breadcrumbs: [
@@ -89,7 +86,7 @@ export default {
           href: '/dashboard',
         },
         {
-          title: 'People',
+          title: 'Users',
           disabled: true,
         },
       ],
@@ -111,7 +108,7 @@ export default {
       if (search) {
         params.search = search
       }
-      this.$inertia.get('/people', params, {
+      this.$inertia.get('/user', params, {
         preserveState: true,
         preserveScroll: true,
         onSuccess: () => {
@@ -125,7 +122,7 @@ export default {
     },
     submitDelete() {
       this.isLoading = true
-      this.$inertia.delete(`/people/${this.deleteId}`, {
+      this.$inertia.delete(`/user/${this.deleteId}`, {
         preserveState: true,
         preserveScroll: true,
         onSuccess: () => {
